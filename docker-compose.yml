@@ -1,0 +1,59 @@
+version: "3"
+services:
+    php-fpm:
+        image: crunchgeek/php-fpm:7.2
+        container_name: php-fpm
+        networks:
+        - project
+    nginx:
+        image: nginx
+        container_name: nginx
+        networks:
+        - project
+    elasticsearch:
+        image: elasticsearch:7.12.1
+        container_name: elasticsearch
+        environment:
+        - discovery.type=single-node
+        - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        volumes:
+        - elastic:/usr/share/elasticsearch/data
+        networks:
+        - project
+        ports:
+        - 9200:9200
+        - 9300:9300
+    mariadb:
+        image: mariadb:10.6
+        container_name: mariadb
+        restart: always
+        environment:
+        - MARIADB_ROOT_PASSWORD=example
+        networks:
+        - project
+    adminer:
+        image: adminer
+        container_name: adminer
+        restart: always
+        ports:
+        - 8080:8080
+        networks:
+        - project
+    tika:
+        image: apache/tika:1.26
+        container_name: tika
+        ports:
+        - 9998:9998
+        networks:
+        - project
+    php:
+        image: php:8
+        container_name: php
+        networks:
+        - project
+volumes:
+    elastic:
+        driver: local
+networks:
+    project:
+        driver: bridge
