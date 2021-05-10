@@ -6,7 +6,7 @@ You can find more info on how to connect to Google Account on https://github.com
 */
 namespace App\Controller;
 
-use http\Env\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -20,14 +20,14 @@ class GoogleController extends AbstractController
      * @Route("/connect/google", name="connect_google_start")
      */
     public function connectAction(ClientRegistry $clientRegistry){
-       //will redirect to Google
+        //will redirect to Google
         return $clientRegistry
             ->getClient('google') //key used in config/packages/knpu_oauth2_client.yaml
-            ->redirect(['public_profile', 'email']); // the scopes you want to access
+            ->redirect(['profile', 'email']); // the scopes you want to access
     }
     //After going to Google, you're redirected back here
     /**
-     * @Route("/connect/google/ckeck", name="connect_google_check")
+     * @Route("/connect/google/check", name="connect_google_check")
      */
     public function connectCheckAction(Request $request, ClientRegistry $clientRegistry ){
         /** @var \KnpU\OAuth2ClientBundle\Client\Provider\GoogleClient $client */

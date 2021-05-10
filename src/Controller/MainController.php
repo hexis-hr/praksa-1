@@ -9,13 +9,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/main", name="main")
+     * @Route("/", name="main")
      */
     public function index(): Response
     {
-        return $this->json([
-            'message' => 'Welcome to your new controller!',
-            'path' => 'src/Controller/MainController.php',
-        ]);
+        return $this->render('test.html.twig');
+    }
+    /**
+     * @Route("/main", name="main1")
+     */
+    public function main(){
+        return new Response('Main');
     }
 }
