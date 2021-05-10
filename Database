@@ -1,0 +1,24 @@
+I created a AWS RDS database and made two tables. One called User which contains UserID, LastName, FirstName, Mail and PrivilegedID, and the second one PrivilegeID and Privilege.
+
+AWS RDS
+  endpoint connection: database.cwghi2srchfe.eu-west-2.rds.amazonaws.com
+  port: 3306
+  user: admin
+  password: administrator
+  
+commands used:
+  CREATE TABLE `sys`.`Users` (
+  `UserID` INT NOT NULL,
+  `LastName` VARCHAR(45) NULL,
+  `FirstName` VARCHAR(45) NULL,
+  `Mail` VARCHAR(255) NULL,
+  `PrivilegeID` INT NULL,
+  PRIMARY KEY (`UserID`));
+
+CREATE TABLE `sys`.`Privileges` (
+  `PrivilegeID` INT NOT NULL,
+  `Privilege` VARCHAR(45) NULL,
+  PRIMARY KEY (`PrivilegeID`));
+  
+INSERT INTO Privileges VALUES (1, 'Admin');
+INSERT INTO Privileges VALUES (0, 'User');
