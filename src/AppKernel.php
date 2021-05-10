@@ -1,8 +1,9 @@
 <?php
-// app/AppKernel.php
 
-// ...
-use Symfony\Component\HttpKernel\Kernel;
+
+//FOSElasticaBundle page with more info and how to use it:https://github.com/FriendsOfSymfony/FOSElasticaBundle
+use App\Kernel;
+
 
 class AppKernel extends Kernel
 {
@@ -11,13 +12,9 @@ class AppKernel extends Kernel
         $bundles = [
             // ...
             new FOS\ElasticaBundle\FOSElasticaBundle(),
+
         ];
 
         // ...
-    }
-
-    public function registerContainerConfiguration(\Symfony\Component\Config\Loader\LoaderInterface $loader)
-    {
-        // TODO: Implement registerContainerConfiguration() method.
     }
 }
