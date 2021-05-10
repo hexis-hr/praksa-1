@@ -3,6 +3,7 @@
 /.env.local
 /.env.local.php
 /.env.*.local
+/.idea/
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
@@ -19,4 +20,3 @@ yarn-error.log
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
-/.idea/
