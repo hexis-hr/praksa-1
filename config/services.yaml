@@ -4,6 +4,13 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    database_driver:   pdo_mysql
+    database_host:     '%env(RDS_HOSTNAME)%'
+    database_port:     '%env(RDS_PORT)%'
+    database_name:     '%env(RDS_DB_NAME)%'
+    database_user:     '%env(RDS_USERNAME)%'
+    database_password: '%env(RDS_PASSWORD)%'
+
 
 services:
     # default configuration for services in *this* file
