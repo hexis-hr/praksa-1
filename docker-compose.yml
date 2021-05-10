@@ -1,7 +1,7 @@
 version: "3"
 services:
     php-fpm:
-        image: crunchgeek/php-fpm:7.2
+        image: php:8-fpm
         container_name: php-fpm
         networks:
         - project
@@ -31,14 +31,6 @@ services:
         - MARIADB_ROOT_PASSWORD=example
         networks:
         - project
-    adminer:
-        image: adminer
-        container_name: adminer
-        restart: always
-        ports:
-        - 8080:8080
-        networks:
-        - project
     tika:
         image: apache/tika:1.26
         container_name: tika
@@ -46,11 +38,7 @@ services:
         - 9998:9998
         networks:
         - project
-    php:
-        image: php:8
-        container_name: php
-        networks:
-        - project
+
 volumes:
     elastic:
         driver: local
