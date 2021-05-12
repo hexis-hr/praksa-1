@@ -1,15 +1,32 @@
 version: "3"
 services:
     php-fpm:
-        image: php:8-fpm
+        build:
+            context: docker/php
         container_name: php-fpm
+        volumes:
+            - php_socket:/var/run/php
+            - ./:/var/www/
         networks:
         - project
     nginx:
-        image: nginx
+        build:
+            context: docker/nginx
         container_name: nginx
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+            - ./docker/nginx/sites-available/:/etc/nginx/sites-available
+            - ./docker/nginx/star.hexis.dev:/etc/nginx/star.hexis.dev
+            - ./docker/logs/nginx/:/var/log/nginx/
+            - php_socket:/var/run/php
+        depends_on:
+            - php-fpm
         networks:
         - project
+        ports:
+            - "80:80"
+            - "443:443"
     elasticsearch:
         image: elasticsearch:7.12.1
         container_name: elasticsearch
@@ -31,6 +48,8 @@ services:
         - MARIADB_ROOT_PASSWORD=example
         networks:
         - project
+        ports:
+        - "3306:3306"
     tika:
         image: apache/tika:1.26
         container_name: tika
@@ -42,6 +61,7 @@ services:
 volumes:
     elastic:
         driver: local
+    php_socket:
 networks:
     project:
         driver: bridge
