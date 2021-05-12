@@ -1,7 +1,8 @@
 version: "3"
 services:
     php-fpm:
-        image: php:8-fpm
+        build:
+            context: docker/php
         container_name: php-fpm
         volumes:
             - php_socket:/var/run/php
@@ -9,7 +10,8 @@ services:
         networks:
         - project
     nginx:
-        image: nginx
+        build:
+            context: docker/nginx
         container_name: nginx
         volumes:
             - ./:/var/www
