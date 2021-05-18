@@ -2,17 +2,22 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     enable_authenticator_manager: true
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\Users
+                property: mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-
-            lazy: true
-            provider: users_in_memory
+            anonymous: false
             custom_authenticators:
                 - App\Security\GoogleAuthenticator
+
+
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
