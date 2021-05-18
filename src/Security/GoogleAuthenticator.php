@@ -44,15 +44,12 @@ class GoogleAuthenticator extends OAuth2Authenticator
         $client = $this->clientRegistry->getClient('google');
         $accessToken = $this->fetchAccessToken($client);
 
-
         return new SelfValidatingPassport(
             new UserBadge($accessToken, function() use ($accessToken, $client) {
                 /** @var GoogleUser $googleuser */
                 $googleuser = $client->fetchUserFromToken($accessToken);
 
-
                 $email = $googleuser->getEmail();
-
 
 
                 // 1) have they logged in with Facebook before? Easy!
@@ -63,10 +60,10 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
                     return $existingUser;
                 }
-
                 // 2) do we have a matching user by email?
 
                 $user = $this->entityManager->getRepository(Users::class)->findOneBy(['Mail' => $email]);
+
 
                 // 3) Maybe you just want to "register" them by creating
                 // a User object
@@ -76,14 +73,9 @@ class GoogleAuthenticator extends OAuth2Authenticator
                     $newuser->setFirstName($googleuser->getFirstName());
                     $newuser->setLastName($googleuser->getLastName());
                     $newuser->setMail($googleuser->getEmail());
-                    $newuser->setName($googleuser->getName());
-
                     $this->entityManager->persist($newuser);
                     $this->entityManager->flush();
                 }
-
-
-
                 return $user;
             })
         );
@@ -109,4 +101,6 @@ class GoogleAuthenticator extends OAuth2Authenticator
 
         return new Response($message, Response::HTTP_FORBIDDEN);
     }
+
+
 }
