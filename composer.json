@@ -17,6 +17,7 @@
         "nelmio/cors-bundle": "2.1",
         "sensio/framework-extra-bundle": "^6.1",
         "stof/doctrine-extensions-bundle": "^1.6",
+        "symfony/apache-pack": "^1.0",
         "symfony/asset": "5.2.*",
         "symfony/cache": "5.2.*",
         "symfony/config": "5.2.*",
