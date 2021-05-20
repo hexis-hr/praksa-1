@@ -26,6 +26,7 @@ Our mainly focus is setting up an environment that non-IT people can use and mak
 - Products names
 
 
+
 ##What we need##
 - ###Desktop app###
     - Only for PCs
@@ -114,8 +115,76 @@ Our mainly focus is setting up an environment that non-IT people can use and mak
     - Demonstrate basic functionality
     - Visual overview
 
+=======
+##What we need##
+- ###Desktop app###
+	- Only for PCs
+	- **AWS**
+	- **Docker environment**
+	- **MySQL on AWS**
+- ###Login form/Authentication###
+	- Google account
+	- User privilege
+		- Admin-can access all data
+		- User-can acces only his data 
+- ###Database###
+	- Users
+	- Data
+	- **MySQL**
+
+- ###Detection###
+	- Language detection
+	- File type detection
+	- **Apache Tika**  
+
+- ###Search engine###
+	- Filtering through dates
+	- **Elasticsearch**
+
+- ###Upload function###
+	- Different file types
+	- What to do with unsupported files
+	##
+- **Easy access for technical support**
+- **Intuitive and accessible GUI**
+
+##Deliverables##
+- ###Creative brief###
+	- Desktop app
+	- Cloud storage
+	- Way of filtering through documents
+	- Document categorization
+	- Different languages and currencies supported
+	- User privilege
+	- Upload function(.jpeg or .pdf)
+
+- ###Wireframes###
+	- **How the content will be grouped together:**
+		- Data acces through cloud storage
+		- Cloud storage connected with Google account
+    - **How the information will be structured:**
+	    - Database MySQL on AWS
+	    - File uploads that will be stored on cloud
+	    - Information based on different users
+    - **A description of how the user will interact with the interface:**
+	    - Intuitive GUI
+	    - Authentication
+	    - Uploads
+	    - Exports
+	    - Saved data
+
+- ###Mockups###
+	- Color:
+	- Fonts:
+	- Images:
+	- UI
+	- Accurately structure the information
+	- Demonstrate basic functionality
+	- Visual overview
+
 
 - ###Final prototype###
+
 
 
 
@@ -147,6 +216,30 @@ Our mainly focus is setting up an environment that non-IT people can use and mak
     - Based on doubts about the project
     - Daily if needed
 
+=======
+#Risk assessment#
+- Slow client feedback
+- Ignorance of technologies
+- Access of someone else's data and storage
+- Unsupported files
+- Deleting important files/documents
+- Backup is a must
+- Lose of funds/time if not successful
+
+#Progress reporting#
+- **Client**
+	- End of the week
+	- When needed to discuss project related arrangements
+	- After a stage/milestone is completed
+	- Video calls
+	- Meetings
+	- Messaging
+- **Working team**
+	- Weekly video calls
+	- Messaging throughout the week
+	- Based on doubts about the project
+	- Daily if needed
+
 
 #Expected delivery#
 - **End of June 2021**
@@ -161,8 +254,7 @@ Our mainly focus is setting up an environment that non-IT people can use and mak
 
 
 
-                                                                                                                                                                                            HEXIS d.o.o.     5/6/2021
 
-
+																								HEXIS d.o.o.	 5/6/2021 
 
 
