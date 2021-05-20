@@ -6,14 +6,13 @@ security:
         app_user_provider:
             entity:
                 class: App\Entity\Users
-                property: mail
+                property: Mail
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+
         main:
-            anonymous: false
-            custom_authenticators:
+            custom_authenticator:
                 - App\Security\GoogleAuthenticator
 
 
