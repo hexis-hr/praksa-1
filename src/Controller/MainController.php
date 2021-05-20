@@ -2,34 +2,34 @@
 
 namespace App\Controller;
 
+use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
-
-
 class MainController extends AbstractController
 {
     /**
-     * @Route("/test", name="main")
+     * @Route("/login", name="login")
      */
     public function index(): Response
     {
-        return $this->render('test.html.twig');
+        return $this->render('login.html.twig');
     }
     /**
      * @Route("/main", name="main1")
      */
-    public function main(){
-        $entityManager = $this->getDoctrine()->getManager();
+    public function main(): Response
+    {
 
-        return new Response('Main');
+        return $this->render('login.html.twig');
+
     }
     /**
      * @Route("/success", name="app_homepage")
      */
 
     public function afterLogin(){
+        require __DIR__.'/../start.php';
         return new Response('Sve je dobro.');
     }
 }
