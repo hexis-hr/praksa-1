@@ -40,8 +40,19 @@ class Users
      * @ORM\Column(type="integer", nullable=true)
      */
     private $PrivelegeID;
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Name;
 
+    public function getName(){
+        return $this->Name;
+    }
+    public function setName(string $Name){
+        $this->Name = $Name;
+        return $this;
 
+    }
     public function getUserID(): ?int
     {
         return $this->UserID;
