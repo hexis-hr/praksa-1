@@ -29,7 +29,7 @@ class MainController extends AbstractController
      */
 
     public function afterLogin(){
-        require __DIR__.'/../start.php';
+        require __DIR__ . '../Functions/start.php';
         return new Response('Sve je dobro.');
     }
 }
