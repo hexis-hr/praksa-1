@@ -227,3 +227,4 @@ com2021/05/12 15:23:53 [crit] 25#25: *50 connect() to unix:/var/run/php/php-fpm.
 2021/05/12 18:43:04 [error] 27#27: *4 upstream sent unsupported FastCGI protocol version: 72 while reading response header from upstream, client: 172.20.0.1, server: praksa-local.hexis.dev, request: "GET / HTTP/1.1", upstream: "fastcgi://127.0.0.1:443", host: "praksa-local.hexis.dev"
 2021/05/12 18:43:04 [error] 27#27: *4 upstream sent unsupported FastCGI protocol version: 72 while reading response header from upstream, client: 172.20.0.1, server: praksa-local.hexis.dev, request: "GET /favicon.ico HTTP/1.1", upstream: "fastcgi://127.0.0.1:443", host: "praksa-local.hexis.dev", referrer: "https://praksa-local.hexis.dev/"
 2021/05/12 18:47:07 [emerg] 1#1: invalid host in upstream "/var/run/php/php-fpm.sock" in /etc/nginx/sites-available/default.conf:18
+2021/05/21 08:49:39 [emerg] 1#1: invalid host in upstream "/var/run/php/php-fpm.sock" in /etc/nginx/sites-available/default.conf:18
