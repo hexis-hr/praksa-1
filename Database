@@ -5,9 +5,10 @@ AWS RDS
   port: 3306
   user: admin
   password: administrator
-  
+  database name: database
+
 commands used:
-  CREATE TABLE `sys`.`Users` (
+  CREATE TABLE `database`.`Users` (
   `UserID` INT NOT NULL,
   `LastName` VARCHAR(45) NULL,
   `FirstName` VARCHAR(45) NULL,
@@ -15,10 +16,23 @@ commands used:
   `PrivilegeID` INT NULL,
   PRIMARY KEY (`UserID`));
 
-CREATE TABLE `sys`.`Privileges` (
+CREATE TABLE `database`.`Privileges` (
   `PrivilegeID` INT NOT NULL,
   `Privilege` VARCHAR(45) NULL,
   PRIMARY KEY (`PrivilegeID`));
   
 INSERT INTO Privileges VALUES (1, 'Admin');
 INSERT INTO Privileges VALUES (0, 'User');
+
+24.5.
+
+I added three tables to this database, Bill, BillID and Product. Table Bill has bill_id, company_name, company_address, date, place, product_id, total_price and responsible_person.
+Table BillID has only bill_id that I inner joined with bill_id from Bill.
+Table Product has product_id, description and price. product_id is inner joined with product_id from Bill.
+ 
+
+SELECT Bill.product_id FROM Bill
+INNER JOIN Product ON Product.product_id=Bill.product_id;
+
+SELECT Bill.bill_id FROM Bill
+INNER JOIN BillID ON BillID.bill_id=Bill.bill_id;
