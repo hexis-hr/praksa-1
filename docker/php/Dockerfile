@@ -64,14 +64,6 @@ COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr
 COPY php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN install-php-extensions gd
 
-#6.ADD-CRONTAB
-RUN mkdir -p /etc/periodic/everymin
-COPY ./tasks.cron /tmp/tasks
-RUN cat /tmp/tasks >> /etc/crontabs/root
-RUN echo -e "extension=gd.so" > /usr/local/etc/php/conf.d/docker-php-ext-gd.ini
-RUN mkdir -p /var/log/cron \
- && touch /var/log/cron/cron.log
-
 VOLUME /var/run/php
 
 WORKDIR /var/www

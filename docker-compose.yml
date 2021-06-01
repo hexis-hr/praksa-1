@@ -1,12 +1,13 @@
 version: "3"
 services:
     php-fpm:
-        build:
-            context: docker/php
+        image: hexis/php:8.0
         container_name: php-fpm
         volumes:
             - php_socket:/var/run/php
             - ./:/var/www/
+        environment:
+            COMPOSER_MEMORY_LIMIT: -1
         networks:
         - project
     nginx:
