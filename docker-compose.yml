@@ -1,7 +1,8 @@
 version: "3"
 services:
     php-fpm:
-        image: hexis/php:8.0
+        build:
+            context: docker/php
         container_name: php-fpm
         volumes:
             - php_socket:/var/run/php
