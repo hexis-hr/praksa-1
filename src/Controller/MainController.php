@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
+     * @Route("/", name="login")
      */
     public function index(): Response
     {
@@ -31,5 +31,12 @@ class MainController extends AbstractController
     public function afterLogin(){
         require __DIR__ . '../Functions/start.php';
         return new Response('Sve je dobro.');
+    }
+    /**
+     * @Route("/google", name="app_homepage")
+     */
+
+    public function google(){
+        return $this->render('test.html.twig');
     }
 }
