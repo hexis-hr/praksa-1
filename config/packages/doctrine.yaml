@@ -5,10 +5,10 @@ doctrine:
         default_connection: default
         connections:
             default:
-                dbname: '%env(RDS_DB_NAME)%'
-                user: '%env(RDS_USERNAME)%'
-                password: '%env(RDS_PASSWORD)%'
-                host: '%env(RDS_HOSTNAME)%'
+                dbname: 'praksa'
+                user: 'root'
+                password: 'example'
+                host: 'mariadb'
                 driver: 'pdo_mysql'
                 port: 3306
                 server_version: '5.7'

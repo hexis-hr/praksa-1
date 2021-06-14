@@ -48,6 +48,7 @@ services:
         restart: always
         environment:
         - MARIADB_ROOT_PASSWORD=example
+        - MARIADB_DATABASE=praksa
         networks:
         - project
         ports:
