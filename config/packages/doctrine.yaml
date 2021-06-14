@@ -11,7 +11,7 @@ doctrine:
                 host: 'mariadb'
                 driver: 'pdo_mysql'
                 port: 3306
-                server_version: '5.7'
+                server_version: 'mariadb-10.6.1'
                 charset: utf8mb4
                 default_table_options:
                     charset: utf8mb4
