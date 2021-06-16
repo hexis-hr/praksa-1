@@ -10,6 +10,7 @@ parameters:
     database_name:     '%env(RDS_DB_NAME)%'
     database_user:     '%env(RDS_USERNAME)%'
     database_password: '%env(RDS_PASSWORD)%'
+    upload_dir: '../var/uploads'
 
 
 services:
@@ -17,7 +18,8 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+        bind:
+            $uploadDir: '%upload_dir%'
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
