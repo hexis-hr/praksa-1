@@ -9,19 +9,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/", name="login")
+     * @Route("/login1", name="login")
      */
     public function index(): Response
     {
         return $this->render('login.html.twig');
     }
     /**
-     * @Route("/main", name="main1")
+     * @Route("/", name="main")
      */
     public function main(): Response
     {
 
-        return $this->render('login.html.twig');
+        return $this->render('home.html.twig');
 
     }
     /**

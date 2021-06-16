@@ -64,7 +64,7 @@
 
 
     <!-- Critical CSS -->
-    <!--  <link rel="stylesheet" href="../css/main.min.css" type='text/css'> -->
+    <link rel="stylesheet" href="../assets/styles/main.min.css" type='text/css'>
 
     <!-- Secondary Meta Tags -->
     <meta name='description' content=''>
@@ -90,7 +90,7 @@
                             <!-- Logo  -->
                             <a class="c-link -logo">
 
-                                <img class="c-img" src="{{asset('../assets/media/logo.png')}}" alt="ACI">
+                                <img class="c-img" src="./assets/media/logo.png" alt="ACI">
 
                             </a>
 
@@ -182,9 +182,25 @@
     <!-- Bottombar START -->
 
 </header>
-
+<h3>Search</h3>
 <!--Here goes main-->
+<h3>Upload files</h3>
+{% block body %}
 
+    <form action="/doUpload" method="post" enctype="multipart/form-data">
+
+        <input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
+
+        <div>
+            <label for="myfile">File to upload:</label>
+            <input type="file" name="myfile" id="myfile">
+        </div>
+
+        <button type="submit">Send</button>
+
+    </form>
+
+{% endblock %}
 <!-- <script src="js/main.min.js"></script> -->
 
 <!-- Note for DEVs: remove after implementation -->
