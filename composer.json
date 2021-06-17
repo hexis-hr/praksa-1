@@ -45,7 +45,8 @@
         "twig/extra-bundle": "3.3",
         "twig/intl-extra": "3.3",
         "xiidea/easy-audit": "2.0.1",
-      "ext-curl": "*"
+      "ext-curl": "*",
+        "ext-json": "*"
     },
     "config": {
         "optimize-autoloader": true,

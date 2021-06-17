@@ -8,9 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\FileUploader;
 use Psr\Log\LoggerInterface;
+use function Sodium\increment;
+
 
 class UploadController extends AbstractController
 {
+
+
     /**
      * @Route("/doUpload", name="do-upload")
      * @param Request $request
@@ -22,7 +26,8 @@ class UploadController extends AbstractController
     public function index(Request $request, string $uploadDir,
                           FileUploader $uploader, LoggerInterface $logger): Response
     {
-        $token = $request->get("token");
+
+        $token  = $request->get("token");
 
         if (!$this->isCsrfTokenValid('upload', $token))
         {
@@ -56,14 +61,46 @@ class UploadController extends AbstractController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         // $output contains the output string
         $output = curl_exec($ch);
-        var_dump("Filename: " .$filename ." Output:". $output);
-        die();
+
+        $jsonarray = array('Filename' => $filename, 'Content' => $output);
+
+        /*$final = str_replace("pdf", "", $filename);
+        $jsonpath = '../var/json';
+        if(!file_exists($jsonpath)){
+            mkdir($jsonpath);
+        }
+
+
+        $fp = fopen($jsonpath.'/'.$final."json", 'w');
+        fwrite($fp,json_encode($jsonarray));
+        fclose($fp); */
+        $content = json_encode(($jsonarray));
         // close curl resource to free up system resources
         curl_close($ch);
+        //IMPORTING INTO ELASTICSEARCH
+        $ch = curl_init();
+
+        curl_setopt($ch,CURLOPT_URL,"http://elasticsearch/elasticsearch/pdffiles/json");
+        curl_setopt($ch, CURLOPT_PORT, "9200");
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+
+        $response = curl_exec($ch);
+
+        echo $response;
+        curl_close($ch);
+
+
 
 
         
         return new Response("File uploaded",  Response::HTTP_OK,
             ['content-type' => 'text/plain']);
     }
+
+
+
+
 }
