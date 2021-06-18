@@ -182,29 +182,12 @@
     <!-- Bottombar START -->
 
 </header>
-<h3>Search</h3>
-<form action="/search" method="post" >
-    <input type="search" name="search" placeholder="Enter receipt content.">
-    <input type="submit" name="submit" value="Submit">
-</form>
-<!--Here goes main-->
-<h3>Upload files</h3>
-{% block body %}
+<h3>Search results for "{{ content }}"</h3>
+{%for row in search_results %}
 
-    <form action="/doUpload" method="post" enctype="multipart/form-data">
+    <a href="/view?file={{ row }}">{{ row }}.pdf</a>
 
-        <input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
-
-        <div>
-            <label for="myfile">File to upload:</label>
-            <input type="file" name="myfile" id="myfile">
-        </div>
-
-        <button type="submit">Send</button>
-
-    </form>
-
-{% endblock %}
+{% endfor %}
 <!-- <script src="js/main.min.js"></script> -->
 
 <!-- Note for DEVs: remove after implementation -->

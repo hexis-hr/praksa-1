@@ -5,13 +5,7 @@ doctrine:
         default_connection: default
         connections:
             default:
-                dbname: 'praksa'
-                user: 'root'
-                password: 'example'
-                host: 'mariadb'
-                driver: 'pdo_mysql'
-                port: 3306
-                server_version: 'mariadb-10.6.1'
+                url: "%env(resolve:DATABASE_URL)%"
                 charset: utf8mb4
                 default_table_options:
                     charset: utf8mb4
