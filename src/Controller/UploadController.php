@@ -8,7 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\FileUploader;
 use Psr\Log\LoggerInterface;
+use Elasticsearch\ClientBuilder;
 use function Sodium\increment;
+
 
 
 class UploadController extends AbstractController
@@ -26,7 +28,10 @@ class UploadController extends AbstractController
     public function index(Request $request, string $uploadDir,
                           FileUploader $uploader, LoggerInterface $logger): Response
     {
-
+        $hosts = [
+            'http://elasticsearch:9200',       // HTTP Basic Authentication
+        ];
+        $client = ClientBuilder::create()->setHosts($hosts)->build();
         $token  = $request->get("token");
 
         if (!$this->isCsrfTokenValid('upload', $token))
@@ -46,10 +51,14 @@ class UploadController extends AbstractController
         }
 
         $filename = $file->getClientOriginalName();
-        $uploader->upload($uploadDir, $file, $filename);
+        $final = str_replace(".pdf", "", $filename);
+        $final = str_replace(" ", "", $final);
+        $uploader->upload($uploadDir, $file, $final.'.pdf');
+
+        $fullPath = $uploadDir. '/'.$final.'.pdf';
         $ch = curl_init();
-        $fullPath = realpath($uploadDir. '/'.$filename);
         fopen($fullPath, 'r');
+
         curl_setopt($ch, CURLOPT_INFILESIZE, filesize($fullPath));
         curl_setopt($ch, CURLOPT_INFILE, fopen($fullPath, 'r'));
         // set url
@@ -62,9 +71,9 @@ class UploadController extends AbstractController
         // $output contains the output string
         $output = curl_exec($ch);
 
-        $jsonarray = array('Filename' => $filename, 'Content' => $output);
+        $jsonarray = array("Filename" => $filename, "Content" => $output);
 
-        /*$final = str_replace("pdf", "", $filename);
+
         $jsonpath = '../var/json';
         if(!file_exists($jsonpath)){
             mkdir($jsonpath);
@@ -73,16 +82,24 @@ class UploadController extends AbstractController
 
         $fp = fopen($jsonpath.'/'.$final."json", 'w');
         fwrite($fp,json_encode($jsonarray));
-        fclose($fp); */
+        fclose($fp);
         $content = json_encode(($jsonarray));
         // close curl resource to free up system resources
         curl_close($ch);
-        //IMPORTING INTO ELASTICSEARCH
-        $ch = curl_init();
+        $params = [
+            'index' => 'elasticsearch',
+            'id'    =>  $final,
+            'body'  => ['Content' => $content]
+        ];
 
-        curl_setopt($ch,CURLOPT_URL,"http://elasticsearch/elasticsearch/pdffiles/json");
+        $response = $client->index($params);
+        print_r($response);
+        //IMPORTING INTO ELASTICSEARCH
+       /* $ch = curl_init();
+
+        curl_setopt($ch,CURLOPT_URL,"http://elasticsearch/elasticsearch/pdffiles/".$final);
         curl_setopt($ch, CURLOPT_PORT, "9200");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
@@ -90,7 +107,7 @@ class UploadController extends AbstractController
         $response = curl_exec($ch);
 
         echo $response;
-        curl_close($ch);
+        curl_close($ch); */
 
 
 
