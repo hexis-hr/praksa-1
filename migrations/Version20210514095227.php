@@ -20,6 +20,21 @@ final class Version20210514095227 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql("CREATE TABLE `praksa`.`Users` (
+  `UserID` INT NOT NULL,
+  `LastName` VARCHAR(45) NULL,
+  `FirstName` VARCHAR(45) NULL,
+  `Mail` VARCHAR(255) NULL,
+  `PrivilegeID` INT NULL,
+  PRIMARY KEY (`UserID`));
+
+CREATE TABLE `praksa`.`Privileges` (
+  `PrivilegeID` INT NOT NULL,
+  `Privilege` VARCHAR(45) NULL,
+  PRIMARY KEY (`PrivilegeID`));
+  
+INSERT INTO Privileges VALUES (1, 'Admin');
+INSERT INTO Privileges VALUES (0, 'User');");
         $this->addSql('DROP TABLE Privileges');
         $this->addSql('ALTER TABLE Users DROP PRIMARY KEY');
         $this->addSql('ALTER TABLE Users ADD last_name VARCHAR(255) NOT NULL, ADD first_name VARCHAR(255) NOT NULL, DROP LastName, DROP FirstName, CHANGE Mail mail VARCHAR(255) NOT NULL, CHANGE userid user_id INT NOT NULL, CHANGE privilegeid privelege_id INT DEFAULT NULL');
