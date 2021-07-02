@@ -5,15 +5,14 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ApiResource()
  * @ORM\Entity(repositoryClass=UsersRepository::class)
  */
-class Users
+class User implements UserInterface
 {
-
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -37,9 +36,16 @@ class Users
     private $Mail;
 
     /**
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $Password;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $PrivelegeID;
+    private $PrivilegeID;
+
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -102,16 +108,52 @@ class Users
         return $this;
     }
 
-    public function getPrivelegeID(): ?int
+    public function getPassword(): ?string
     {
-        return $this->PrivelegeID;
+        return $this->Password;
     }
 
-    public function setPrivelegeID(?int $PrivelegeID): self
+    public function setPassword(string $Password): self
     {
-        $this->PrivelegeID = $PrivelegeID;
+        $this->Password = $Password;
 
         return $this;
+    }
+
+    public function getRoles(): ?string
+    {
+        if ($this->PrivilegeID == 1)
+            return 'ROLE_ADMIN';
+        else
+            return 'ROLE_USER';
+    }
+
+    public function setRoles(?string $role): self
+    {
+        if ($role == 'ROLE_ADMIN')
+            $this->PrivilegeID = 1;
+        else
+            $this->PrivilegeID = 0;
+
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return NULL; /* this method returns NULL because the hashing algorithm
+        used does not require it */
+    }
+
+    public function getUsername() : ?string
+    {
+        return $this->getMail();
+    }
+
+    /* this method is unnecessary because all sensitive information is
+    encrypted, but is defined because this class implements UserInterface */
+    public function eraseCredentials()
+    {
+
     }
 }
 
