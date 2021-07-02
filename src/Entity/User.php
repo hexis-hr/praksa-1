@@ -44,7 +44,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $PrivilegeID;
+    private $PrivilegeID; // will likely be deprecated soon
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -120,27 +120,28 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getRoles(): ?string
+    public function getRoles(): array
     {
         if ($this->PrivilegeID == 1)
-            return 'ROLE_ADMIN';
+            return ['ROLE_ADMIN'];
         else
-            return 'ROLE_USER';
+            return ['ROLE_USER'];
     }
 
-    public function setRoles(?string $role): self
+    // TODO: Implement function to set roles
+    /*public function setRoles(?array $role): self
     {
         if ($role == 'ROLE_ADMIN')
             $this->PrivilegeID = 1;
-        else
+        else if ($role == 'ROLE_USER')
             $this->PrivilegeID = 0;
 
         return $this;
-    }
+    }*/
 
     public function getSalt()
     {
-        return NULL; /* this method returns NULL because the hashing algorithm
+        return NULL; /* this function returns NULL because the hashing algorithm
         used does not require it */
     }
 
@@ -149,7 +150,7 @@ class User implements UserInterface
         return $this->getMail();
     }
 
-    /* this method is unnecessary because all sensitive information is
+    /* this function is unnecessary because all sensitive information is
     encrypted, but is defined because this class implements UserInterface */
     public function eraseCredentials()
     {

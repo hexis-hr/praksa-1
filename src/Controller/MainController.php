@@ -5,27 +5,27 @@ namespace App\Controller;
 use Elasticsearch\ClientBuilder;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 class MainController extends AbstractController
 {
     /**
-     * @Route("/login", name="login")
-     */
-    public function index(): Response
-    {
-        return $this->render('login.html.twig');
-    }
-    /**
      * @Route("/", name="main")
      */
     public function main(): Response
     {
-
-        return $this->render('home.html.twig');
-
+        return new RedirectResponse($this->generateUrl("app_login"));
     }
+    /**
+     * @Route("/dashboard", name="dashboard");
+     */
+    public function dashboard() : Response
+    {
+        return $this->render('home.html.twig');
+    }
+
     /**
      * @Route ("/search", name="search")
      * @param Request $request
