@@ -16,6 +16,9 @@ class MainController extends AbstractController
      */
     public function main(): Response
     {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY'))
+            return new RedirectResponse($this->generateUrl("dashboard"));
+
         return new RedirectResponse($this->generateUrl("app_login"));
     }
     /**
