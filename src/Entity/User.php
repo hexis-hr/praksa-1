@@ -43,9 +43,9 @@ class User implements UserInterface
     private $Password;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="json", nullable=true)
      */
-    private $PrivilegeID; // will likely be deprecated soon
+    private $roles = [];
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -55,16 +55,17 @@ class User implements UserInterface
     public function getName(){
         return $this->Name;
     }
+
     public function setName(string $Name){
         $this->Name = $Name;
         return $this;
 
     }
+
     public function getUserID(): ?int
     {
         return $this->UserID;
     }
-
 
     public function setUserID(int $UserID): self
     {
@@ -123,22 +124,20 @@ class User implements UserInterface
 
     public function getRoles(): array
     {
-        if ($this->PrivilegeID == 1)
-            return ['ROLE_ADMIN'];
-        else
-            return ['ROLE_USER'];
+        $roles = $this->roles;
+
+        array_push($roles, 'ROLE_USER');
+
+        return array_unique($roles);
     }
 
-    // TODO: Implement function to set roles
-    /*public function setRoles(?array $role): self
+    public function setRole(?string $role): self
     {
-        if ($role == 'ROLE_ADMIN')
-            $this->PrivilegeID = 1;
-        else if ($role == 'ROLE_USER')
-            $this->PrivilegeID = 0;
+        if (!in_array($role, $this->roles))
+            array_push($this->roles, $role);
 
         return $this;
-    }*/
+    }
 
     public function getSalt()
     {
