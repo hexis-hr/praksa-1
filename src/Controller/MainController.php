@@ -21,6 +21,7 @@ class MainController extends AbstractController
 
         return new RedirectResponse($this->generateUrl("app_login"));
     }
+
     /**
      * @Route("/dashboard", name="dashboard");
      */
@@ -33,7 +34,8 @@ class MainController extends AbstractController
      * @Route ("/search", name="search")
      * @param Request $request
      */
-    public function search(Request $request): Response{
+    public function search(Request $request): Response
+    {
         $arr = array();
         $hosts = [
             'http://elasticsearch:9200',       // HTTP Basic Authentication
@@ -57,22 +59,18 @@ class MainController extends AbstractController
         ];
         $response = $client->search($param);
 
-
         foreach($response['hits']['hits'] as $host) {
             array_push($arr, $host['_id']);
         }
         return $this->render('search.html.twig', ['search_results' => $arr, 'content'=>$content]);
-
-
     }
+
     /**
      * @Route ("/view", name="dada")
      * @param Request $request
      */
-
-    public function displayFile(Request $request): Response{
-
-
+    public function displayFile(Request $request): Response
+    {
         $name = $request->query->get('file');
         $pdf = file_get_contents("../var/uploads/$name.pdf");
         return new Response($pdf, 200, [
@@ -81,5 +79,12 @@ class MainController extends AbstractController
         ]);
     }
 
-
+    /**
+     * @Route("/manage_docs", name="manage_docs")
+     */
+    // TODO: Implement function to manage documents
+    public function manage_docs() : Response
+    {
+        return $this->render('manage_docs.html.twig');
+    }
 }

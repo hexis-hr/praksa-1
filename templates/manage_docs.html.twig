@@ -106,7 +106,7 @@
 
                                     <ul class="o-mainNav_list">
                                         <li class="o-mainNav_item">
-                                            <a href="">Dashboard</a>
+                                            <a href="dashboard">Dashboard</a>
                                         </li>
 
                                         {% if is_granted('ROLE_ADMIN') %}
@@ -116,10 +116,10 @@
                                           <div class="o-mainNav_trigger-sub" data-menu-trigger="sub"></div>
                                           <ul class="o-mainNav_list-sub" data-sub>
                                             <li class="o-mainNav_item">
-                                              <a href="admin/manage_users">Manage Users</a>
+                                              <a href="admin/manage_users">Manage users</a>
                                             </li>
                                             <li class="o-mainNav_item">
-                                              <a href="manage_docs">Manage Documents</a>
+                                              <a href="manage_docs">Manage documents</a>
                                             </li>
                                           </ul>
                                         </li>
@@ -155,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -163,27 +162,16 @@
     <!-- Bottombar START -->
 
 </header>
-<h3>Search</h3>
-<form action="/search" method="post" >
-    <input type="search" name="search" placeholder="Enter receipt content.">
-    <input type="submit" name="submit" value="Submit">
-</form>
+
 <!--Here goes main-->
-<h3>Upload files</h3>
 {% block body %}
 
-    <form action="/doUpload" method="post" enctype="multipart/form-data">
+<!-- TODO: Create document management tool -->
 
-        <input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
-
-        <div>
-            <label for="myfile">File to upload:</label>
-            <input type="file" name="myfile" id="myfile">
-        </div>
-
-        <button type="submit">Send</button>
-
-    </form>
 {% endblock %}
+<!-- <script src="js/main.min.js"></script> -->
+
+<!-- Note for DEVs: remove after implementation -->
+
 </body>
 </html>

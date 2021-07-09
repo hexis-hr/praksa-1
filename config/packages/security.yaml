@@ -39,5 +39,6 @@ security:
     access_control:
         - { path: ^/dashboard, roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/search, roles: IS_AUTHENTICATED_FULLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/manage_docs, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

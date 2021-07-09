@@ -106,51 +106,33 @@
 
                                     <ul class="o-mainNav_list">
                                         <li class="o-mainNav_item">
-                                            <a href="">Dashboard</a>
-
+                                            <a href="../dashboard">Dashboard</a>
                                         </li>
 
-                                        <!-- <li class="o-mainNav_item -sub" data-scope>
-                                          <a href="serviceList.html">Područja prava</a>
-                                          <div class="o-mainNav_trigger-sub" data-menu-trigger="sub"></div>
-                                          <ul class="o-mainNav_list-sub" data-sub>
-                                            <li class="o-mainNav_item">
-                                              <a href="service.html">Stvarno pravo na nekretninama</a>
-                                            </li>
-                                            <li class="o-mainNav_item">
-                                              <a href="service.html">Ugovorno pravo</a>
-                                            </li>
-                                            <li class="o-mainNav_item">
-                                              <a href="service.html">Obiteljsko pravo</a>
-                                            </li>
-                                            <li class="o-mainNav_item">
-                                              <a href="service.html">Radno pravo</a>
-                                            </li>
-                                          </ul>
-                                        </li> -->
-                                        <!--
-                                            <li class="o-mainNav_item" data-scope>
-                                              <a href="userList.html">Users</a>
-                                            </li>
-                                        -->
-                                        <!--
-                                            <li class="o-mainNav_item" data-scope>
-                                              <a href="clientList.html">Clients</a>
-                                            </li>
-                                        -->
-                                        <!--
-                                            <li class="o-mainNav_item" data-scope>
-                                              <a href="supportTicketsList.html">Support tickets</a>
+                                        {% if is_granted('ROLE_ADMIN') %}
+
+                                            <li class="o-mainNav_item -sub" data-scope>
+                                                <a href="">Management</a>
+                                                <div class="o-mainNav_trigger-sub" data-menu-trigger="sub"></div>
+                                                <ul class="o-mainNav_list-sub" data-sub>
+                                                    <li class="o-mainNav_item">
+                                                        <a href="admin/manage_users">Manage Users</a>
+                                                    </li>
+                                                    <li class="o-mainNav_item">
+                                                        <a href="/manage_docs">Manage Documents</a>
+                                                    </li>
+                                                </ul>
                                             </li>
 
-                                            <li class="o-mainNav_item" data-scope>
-                                              <a href="campaignList.html">Campaign builder</a>
+                                        {% endif %}
+
+                                        {% if not is_granted('ROLE_ADMIN') %}
+
+                                            <li class="o-mainNav_item">
+                                                <a href="manage_docs">Manage documents</a>
                                             </li>
 
-                                            <li class="o-mainNav_item" data-scope>
-                                              <a href="settings.html">Settings</a>
-                                            </li>
-                                            -->
+                                        {% endif %}
                                     </ul>
                                 </nav>
 
@@ -169,7 +151,7 @@
                           </div>
                             -->
                         <div class="o-mainNav_item bg-secondary-darkest">
-                            <a href="">Log out</a>
+                            <a href="../logout">Log out</a>
                         </div>
                     </div>
                 </div>
@@ -177,7 +159,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Bottombar START -->
 
