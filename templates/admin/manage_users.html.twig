@@ -191,11 +191,11 @@
                     <form id="add_user_form" method="POST" action="manage_users/add">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control-inline" name="username">
+                            <input type="text" class="form-control-inline" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="firstname">First Name</label>
-                            <input type="text" class="form-control-inline" name="firstname">
+                            <input type="text" class="form-control-inline" name="firstname" required>
                         </div>
                         <div class="form-group">
                             <label for="lastname">Last Name</label>
@@ -204,7 +204,7 @@
 
                         <div class="form-group">
                             <label for="lastname">Password</label>
-                            <input type="password" class="form-control-inline" name="password">
+                            <input type="password" class="form-control-inline" name="password" required>
                         </div>
 
                         <div class="form-group">
@@ -253,11 +253,11 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="username">Username</label>
-                                            <input type="text" class="form-control-inline" name="username" value="{{ user.username }}">
+                                            <input type="text" class="form-control-inline" name="username" value="{{ user.username }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="firstname">First Name</label>
-                                            <input type="text" class="form-control-inline" name="firstname" value="{{ user.firstname }}">
+                                            <input type="text" class="form-control-inline" name="firstname" value="{{ user.firstname }}" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="lastname">Last Name</label>
