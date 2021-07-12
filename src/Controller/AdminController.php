@@ -41,7 +41,7 @@ class AdminController extends AbstractController
 
     // TODO: Implement function to modify user details
     /**
-     * @Route("/admin/manage_users/modify/{uid}", name="modify_users",
+     * @Route("/admin/manage_users/modify/{uid}", name="modify_user",
      *     requirements={"uid"="\d+"}, methods={"POST"})
      */
 
@@ -70,6 +70,28 @@ class AdminController extends AbstractController
             $man->flush();
 
             $this->addFlash('success', 'Record successfully updated!');
+        }
+
+        return $this->redirectToRoute('manage_users');
+    }
+
+    /**
+     * @Route("/admin/manage_users/delete/{uid}", name="delete_user",
+     *     requirements={"uid"="\d+"})
+     */
+
+    public function delete_user(Request $req, int $uid) : Response
+    {
+        $man = $this->getDoctrine()->getManager();
+        $rep = $man->getRepository(User::class);
+        $user = $rep->find($uid);
+
+        if ($req->isMethod("GET")) {
+
+            $man->remove($user);
+            $man->flush();
+
+            $this->addFlash('success', 'User deleted!');
         }
 
         return $this->redirectToRoute('manage_users');
