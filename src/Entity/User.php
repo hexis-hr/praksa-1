@@ -139,6 +139,13 @@ class User implements UserInterface
         return $this;
     }
 
+    public function revokeRole(string $role): self
+    {
+        unset($this->roles[$role]);
+
+        return $this;
+    }
+
     public function getSalt()
     {
         return NULL; /* this function returns NULL because the hashing algorithm

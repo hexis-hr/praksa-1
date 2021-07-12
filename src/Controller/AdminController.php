@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use Elasticsearch\Endpoints\AsyncSearch\Submit;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -14,9 +14,17 @@ use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminController extends AbstractController
 {
+    private $passwordEncoder;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
     /**
      * @Route("/admin/manage_users", name="manage_users")
      */
@@ -34,22 +42,36 @@ class AdminController extends AbstractController
     // TODO: Implement function to modify user details
     /**
      * @Route("/admin/manage_users/modify/{uid}", name="modify_users",
-     *     requirements={"uid"="\d+"})
+     *     requirements={"uid"="\d+"}, methods={"POST"})
      */
 
-    /*public function modify_user(Request $req, int $uid) : Response
+    public function modify_user(Request $req, int $uid) : Response
     {
-        $rep = $this->getDoctrine()->getRepository(User::class);
+        $man = $this->getDoctrine()->getManager();
+        $rep = $man->getRepository(User::class);
         $user = $rep->find($uid);
 
         if ($req->isMethod("POST")) {
 
-            return new Response(var_dump($req->getContent()));
-            //$user->setMail($req->request->get('username'));
-            //$user->setFirstName($req->request->get('modify_form')['firstname']);
-            //$user->setLastName($req->request->get('modify_form')['lastname']);
+            $user->setMail($req->request->get('username'));
+            $user->setFirstName($req->request->get('firstname'));
+            $user->setLastName($req->request->get('lastname'));
+
+            if (!empty($req->request->get('password')))
+                $user->setPassword($this->passwordEncoder->
+                encodePassword($user, $req->request->get('password')));
+
+            // TODO: Allow administrators to grant or revoke administrator privileges
+            /*if ($req->request->get('admin_role') == 'on')
+                $user->setRole('ROLE_ADMIN');
+            else if (array_key_exists('ROLE_ADMIN', $user->getRoles()))
+                $user->revokeRole('ROLE_ADMIN');*/
+
+            $man->flush();
+
+            $this->addFlash('success', 'Record successfully updated!');
         }
 
-        return new RedirectResponse($this->generateUrl("manage_users"));
-    }*/
+        return $this->redirectToRoute('manage_users');
+    }
 }

@@ -163,7 +163,18 @@
 
 </header>
 <body style="text-align: center">
+
     <h1>Manage Users</h1>
+
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <br>
+            <div class="alert alert-{{ label }}" role="alert">
+                {{ message }}
+            </div>
+            <br>
+        {% endfor %}
+    {% endfor %}
 
     <table class="table-borderless">
         <th>Username</th>
@@ -198,26 +209,26 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="username">Username</label>
-                                            <input type="text" class="form-control-inline" id="username" value="{{ user.username }}">
+                                            <input type="text" class="form-control-inline" name="username" value="{{ user.username }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="firstname">First Name</label>
-                                            <input type="text" class="form-control-inline" id="firstname" value="{{ user.firstname }}">
+                                            <input type="text" class="form-control-inline" name="firstname" value="{{ user.firstname }}">
                                         </div>
                                         <div class="form-group">
                                             <label for="lastname">Last Name</label>
-                                            <input type="text" class="form-control-inline" id="lastname" value="{{ user.lastname }}">
+                                            <input type="text" class="form-control-inline" name="lastname" value="{{ user.lastname }}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="lastname">Password</label>
-                                            <input type="password" class="form-control-inline" id="password">
+                                            <input type="password" class="form-control-inline" name="password">
                                         </div>
 
                                         {% if user.userid != cur_user_id %}
                                             <div class="form-group">
                                                 <label for="admin_role">Administrator</label>
-                                                <input type="checkbox" id="admin_role" class="form-control-inline" {{ user.roles[0] == 'ROLE_ADMIN' ? 'checked'}} ">
+                                                <input type="checkbox" name="admin_role" class="form-control-inline" {{ user.roles[0] == 'ROLE_ADMIN' ? 'checked'}} ">
                                             </div>
                                         {% endif %}
                                     </form>
