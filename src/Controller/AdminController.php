@@ -96,4 +96,37 @@ class AdminController extends AbstractController
 
         return $this->redirectToRoute('manage_users');
     }
+
+    /**
+     * @Route("/admin/manage_users/add", name="add_user", methods={"POST"})
+     */
+
+    public function add_user(Request $req) : Response
+    {
+        $man = $this->getDoctrine()->getManager();
+        $rep = $man->getRepository(User::class);
+        $user = new User();
+
+        if ($req->isMethod("POST")) {
+
+            $user->setMail($req->request->get('username'));
+            $user->setFirstName($req->request->get('firstname'));
+            $user->setLastName($req->request->get('lastname'));
+            $user->setPassword($this->passwordEncoder->
+            encodePassword($user, $req->request->get('password')));
+
+            // TODO: Allow administrators to grant or revoke administrator privileges
+            /*if ($req->request->get('admin_role') == 'on')
+                $user->setRole('ROLE_ADMIN');
+            else if (array_key_exists('ROLE_ADMIN', $user->getRoles()))
+                $user->revokeRole('ROLE_ADMIN');*/
+
+            $man->persist($user);
+            $man->flush();
+
+            $this->addFlash('success', 'User added!');
+        }
+
+        return $this->redirectToRoute('manage_users');
+    }
 }

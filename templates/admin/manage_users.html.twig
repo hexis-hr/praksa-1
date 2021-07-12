@@ -65,7 +65,6 @@
 
     <!-- Synchronously font loading -->
 
-
     <!-- Critical CSS -->
     <link rel="stylesheet" href="../assets/styles/main.min.css" type='text/css'>
 
@@ -177,6 +176,51 @@
         {% endfor %}
     {% endfor %}
 
+    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">
+        Add User
+    </button>
+
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title" id="addModalLabel">Add User</h1>
+                </div>
+                <div class="modal-body">
+                    <!-- render the form below with Symfony instead? -->
+                    <form id="add_user_form" method="POST" action="manage_users/add">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control-inline" name="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control-inline" name="firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control-inline" name="lastname">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastname">Password</label>
+                            <input type="password" class="form-control-inline" name="password">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="admin_role">Administrator</label>
+                            <input type="checkbox" name="admin_role" class="form-control-inline">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" form="add_user_form">Add user</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table class="table-borderless">
         <th>Username</th>
         <th>First Name</th>
@@ -194,7 +238,6 @@
                         Modify
                     </button>
 
-                    <!-- Modal -->
                     <div class="modal fade" id="modifyModal{{ user.userid }}" tabindex="-1" role="dialog" >
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
