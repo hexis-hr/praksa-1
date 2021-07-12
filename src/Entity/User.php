@@ -139,9 +139,9 @@ class User implements UserInterface
         return $this;
     }
 
-    public function revokeRole(string $role): self
+    public function revokeAdmin(): self
     {
-        unset($this->roles[$role]);
+        $this->roles = array();
 
         return $this;
     }

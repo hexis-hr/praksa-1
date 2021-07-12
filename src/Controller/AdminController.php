@@ -5,15 +5,10 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Acl\Domain\UserSecurityIdentity;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AdminController extends AbstractController
@@ -61,11 +56,10 @@ class AdminController extends AbstractController
                 $user->setPassword($this->passwordEncoder->
                 encodePassword($user, $req->request->get('password')));
 
-            // TODO: Allow administrators to grant or revoke administrator privileges
-            /*if ($req->request->get('admin_role') == 'on')
+            if ($req->request->get('admin_role') == 'on')
                 $user->setRole('ROLE_ADMIN');
-            else if (array_key_exists('ROLE_ADMIN', $user->getRoles()))
-                $user->revokeRole('ROLE_ADMIN');*/
+            else
+                $user->revokeAdmin();
 
             $man->flush();
 
@@ -104,7 +98,6 @@ class AdminController extends AbstractController
     public function add_user(Request $req) : Response
     {
         $man = $this->getDoctrine()->getManager();
-        $rep = $man->getRepository(User::class);
         $user = new User();
 
         if ($req->isMethod("POST")) {
@@ -115,11 +108,8 @@ class AdminController extends AbstractController
             $user->setPassword($this->passwordEncoder->
             encodePassword($user, $req->request->get('password')));
 
-            // TODO: Allow administrators to grant or revoke administrator privileges
-            /*if ($req->request->get('admin_role') == 'on')
+            if ($req->request->get('admin_role') == 'on')
                 $user->setRole('ROLE_ADMIN');
-            else if (array_key_exists('ROLE_ADMIN', $user->getRoles()))
-                $user->revokeRole('ROLE_ADMIN');*/
 
             $man->persist($user);
             $man->flush();
