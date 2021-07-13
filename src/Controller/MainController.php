@@ -27,7 +27,9 @@ class MainController extends AbstractController
      */
     public function dashboard() : Response
     {
-        return $this->render('home.html.twig');
+        $firstname = $this->getUser()->getFirstName();
+
+        return $this->render('home.html.twig', ['firstname' => $firstname]);
     }
 
     /**

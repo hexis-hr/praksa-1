@@ -163,9 +163,14 @@
     <!-- Bottombar START -->
 
 </header>
+
+<h1 style="text-align: center">Welcome to HEXtractIS, {{ firstname }}!</h1>
+<p>This is your dashboard. Here you can search for documents by specifying
+keywords as well as upload documents you wish to store for future reference.
+</p>
 <h3>Search</h3>
 <form action="/search" method="post" >
-    <input type="search" name="search" placeholder="Enter receipt content.">
+    <input type="search" name="search" placeholder="Type keywords here">
     <input type="submit" name="submit" value="Submit">
 </form>
 <!--Here goes main-->
@@ -177,7 +182,7 @@
         <input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
 
         <div>
-            <label for="myfile">File to upload:</label>
+            <label for="myfile">File to upload (PDF only!)</label>
             <input type="file" name="myfile" id="myfile">
         </div>
 
