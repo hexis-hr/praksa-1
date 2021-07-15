@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,6 @@ use function Sodium\increment;
 
 class UploadController extends AbstractController
 {
-
-
     /**
      * @Route("/doUpload", name="do-upload")
      * @param Request $request
@@ -38,16 +37,16 @@ class UploadController extends AbstractController
         {
             $logger->info("CSRF failure");
 
-            return new Response("Operation not allowed",  Response::HTTP_BAD_REQUEST,
-                ['content-type' => 'text/plain']);
+            $this->addFlash('failure', 'Operation not allowed!');
+            return new RedirectResponse("dashboard");
         }
 
         $file = $request->files->get('myfile');
 
         if (empty($file))
         {
-            return new Response("No file specified",
-                Response::HTTP_UNPROCESSABLE_ENTITY, ['content-type' => 'text/plain']);
+            $this->addFlash('failure', 'No file specified!');
+            return new RedirectResponse("dashboard");
         }
 
         $filename = $file->getClientOriginalName();
@@ -93,7 +92,8 @@ class UploadController extends AbstractController
         ];
 
         $response = $client->index($params);
-        print_r($response);
+        $this->addFlash('success', 'Document uploaded!');
+        //print_r($response);
         //IMPORTING INTO ELASTICSEARCH
        /* $ch = curl_init();
 
@@ -109,15 +109,6 @@ class UploadController extends AbstractController
         echo $response;
         curl_close($ch); */
 
-
-
-
-        
-        return new Response("File uploaded",  Response::HTTP_OK,
-            ['content-type' => 'text/plain']);
+        return new RedirectResponse("dashboard");
     }
-
-
-
-
 }

@@ -168,6 +168,17 @@
 <p>This is your dashboard. Here you can search for documents by specifying
 keywords as well as upload documents you wish to store for future reference.
 </p>
+
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        <br>
+        <div class="alert alert-{{ label }}" role="alert">
+            {{ message }}
+        </div>
+        <br>
+    {% endfor %}
+{% endfor %}
+
 <h3>Search</h3>
 <form action="/search" method="post" >
     <input type="search" name="search" placeholder="Type keywords here">
