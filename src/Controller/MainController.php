@@ -3,12 +3,16 @@
 namespace App\Controller;
 
 use Elasticsearch\ClientBuilder;
+//use Imagick;
 use PhpParser\Node\Scalar\MagicConst\Dir;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 class MainController extends AbstractController
 {
     /**
@@ -39,6 +43,7 @@ class MainController extends AbstractController
     public function search(Request $request): Response
     {
         $arr = array();
+        $num = 0;
         $hosts = [
             'http://elasticsearch:9200',       // HTTP Basic Authentication
         ];
@@ -61,10 +66,32 @@ class MainController extends AbstractController
         ];
         $response = $client->search($param);
 
+        //return new Response(var_dump($response));
+
         foreach($response['hits']['hits'] as $host) {
-            array_push($arr, $host['_id']);
+
+            $result = array();
+            array_push($result, $host['_id']);
+
+            //array_push($arr[], $host['_id']);
+
+            $file = "../var/uploads/". $host['_id']. ".pdf";
+            $file_res = new BinaryFileResponse($file);
+            $file_size =  $file_res->getFile()->getSize();
+            $file_time =  $file_res->getLastModified();
+
+            array_push($result, $file_size);
+            array_push($result, date_format($file_time, "Y-m-d h:m:s"));
+
+            array_push($arr, $result);
+
+            $num++;
         }
-        return $this->render('search.html.twig', ['search_results' => $arr, 'content'=>$content]);
+
+        //return new Response(var_dump($arr));
+
+        return $this->render('search.html.twig', ['search_results' => $arr, 'content'=>$content,
+            'num' => $num]);
     }
 
     /**
@@ -79,6 +106,23 @@ class MainController extends AbstractController
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => "inline; filename = '$name.pdf'"
         ]);
+    }
+
+    /**
+     * @Route ("/preview", name="preview")
+     * @param Request $request
+     */
+    public function previewFile(Request $request) : Response
+    {
+       $file = "../var/uploads/thumbnails/". $request->query->get('file'). ".jpg";
+
+        // TODO: Implement thumbnail generation
+        /*if (!file_exists($file)) {
+            $image = new Imagick($file);
+            $image->thumbnailImage($file);
+        }*/
+
+        return new BinaryFileResponse($file);
     }
 
     /**

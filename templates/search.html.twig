@@ -163,12 +163,52 @@
     <!-- Bottombar START -->
 
 </header>
-<h3>Search results for "{{ content }}"</h3>
-{%for row in search_results %}
+<br>
+<form action="/search" method="post" >
+    <input type="search" name="search" placeholder="Type keywords here">
+    <input type="submit" name="submit" value="Submit">
+</form>
+{% if num == 1 %}
+    <h3>{{ num }} search result for "{{ content }}"</h3>
+    {% else %}
+        <h3>{{ num }} search results for "{{ content }}"</h3>
 
-    <a href="/view?file={{ row }}">{{ row }}.pdf</a>
+{% endif %}
+{% if search_results is empty %}
+    <p>
+        No results found! Try some different keywords or upload some documents.
+    </p>
+    {% else %}
+        <table align="center">
+            <th>Name</th>
+            <th>File size</th>
+            <th>Timestamp</th>
+            <th>Thumbnail</th>
+            {%for row in search_results %}
+            <tr>
+                <td>
+                    <a href="/view?file={{ row[0] }}">{{ row[0] }}.pdf</a>
+                </td>
+                <td>
+                    {% if row[1] > 1048576 %}
+                        {{ row[1] // 1048576}} MB
 
-{% endfor %}
+                    {% elseif row[1] > 1024 %}
+                        {{ row[1] // 1024}} KB
+                    {% else %}
+                        {{ row[1] }} B
+                    {% endif %}
+                </td>
+                <td>
+                    {{ row[2] }}
+                </td>
+                <td>
+                    <img src="/preview?file={{ row[0] }}">
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+{% endif %}
 <!-- <script src="js/main.min.js"></script> -->
 
 <!-- Note for DEVs: remove after implementation -->
