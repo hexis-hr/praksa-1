@@ -81,8 +81,7 @@ class MainController extends AbstractController
             $file_time =  $file_res->getLastModified();
 
             array_push($result, $file_size);
-            array_push($result, date_format($file_time, "Y-m-d h:m:s"));
-
+            array_push($result, date_format($file_time, "r"));
             array_push($arr, $result);
 
             $num++;
