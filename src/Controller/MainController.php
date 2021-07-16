@@ -76,7 +76,7 @@ class MainController extends AbstractController
 
             $file = "../var/uploads/". substr($host['_id'], 0, strrpos($host['_id'], '__')). ".pdf";
 
-            if (!$file) // in case a file was previously deleted
+            if (!file_exists($file)) // in case a file was previously deleted
                 return $this->redirectToRoute("search");
 
             $file_res = new BinaryFileResponse($file);
@@ -167,7 +167,7 @@ class MainController extends AbstractController
                 'id' => $doc
             ];
 
-            $response = $client->delete($params);
+            $client->delete($params);
 
             $this->addFlash('success', 'Document deleted!');
         }
