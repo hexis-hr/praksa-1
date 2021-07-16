@@ -220,7 +220,7 @@
                 <td>
                     <img src="preview?file={{ row[0] }}">
                 </td>
-                {% if is_granted("ROLE_ADMIN") %}
+                {% if is_granted("ROLE_ADMIN") or app.user.getUserID() == row[3] %}
                     <td>
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal{{ loop.index }}">
                             Delete
