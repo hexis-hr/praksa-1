@@ -75,6 +75,10 @@ class MainController extends AbstractController
             array_push($result, substr($host['_id'], 0, strrpos($host['_id'], '__')));
 
             $file = "../var/uploads/". substr($host['_id'], 0, strrpos($host['_id'], '__')). ".pdf";
+
+            if (!$file) // in case a file was previously deleted
+                return $this->redirectToRoute("search");
+
             $file_res = new BinaryFileResponse($file);
             $file_size =  $file_res->getFile()->getSize();
             $file_time =  $file_res->getLastModified();
@@ -84,6 +88,7 @@ class MainController extends AbstractController
 
             array_push($result, $file_size);
             array_push($result, date_format($file_time, "r"));
+            array_push($result, $u_user->getUserID());
             array_push($result,
                 $u_user->getFirstName(). " ". $u_user->getLastName().
             " (". $u_user->getUsername() .")");
@@ -92,10 +97,12 @@ class MainController extends AbstractController
             $num++;
         }
 
+        $cur_user_id = $this->getUser()->getUserID();
+
         //return new Response(var_dump($arr));
 
         return $this->render('search.html.twig', ['search_results' => $arr, 'content'=>$content,
-            'num' => $num]);
+            'num' => $num, 'cur_user_id' => $cur_user_id]);
     }
 
     /**
@@ -130,11 +137,41 @@ class MainController extends AbstractController
     }
 
     /**
-     * @Route("/manage_docs", name="manage_docs")
+     * @Route("manage_docs", name="manage_docs")
      */
-    // TODO: Implement function to manage documents
     public function manage_docs() : Response
     {
-        return new Response;
+        return new RedirectResponse($this->generateUrl("search"));
+    }
+
+    /**
+     * @Route("manage_docs/delete/{doc}", name="delete_file")
+     * @param Request $request
+     */
+
+    public function delete_file(Request $request, ?string $doc) : Response
+    {
+        if ($request->isMethod("GET")) {
+
+            $jsonpath = '../var/json/';
+            $uploadpath = '../var/uploads/';
+            unlink($jsonpath. substr($doc, 0, strrpos($doc, '__')). "json");
+            unlink($uploadpath. substr($doc, 0, strrpos($doc, '__')). ".pdf");
+
+            $hosts = [
+                'http://elasticsearch:9200',       // HTTP Basic Authentication
+            ];
+            $client = ClientBuilder::create()->setHosts($hosts)->build();
+            $params = [
+                'index' => 'elasticsearch',
+                'id' => $doc
+            ];
+
+            $response = $client->delete($params);
+
+            $this->addFlash('success', 'Document deleted!');
+        }
+
+        return $this->redirectToRoute('manage_docs');
     }
 }
