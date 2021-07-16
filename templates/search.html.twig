@@ -182,7 +182,8 @@
         <table align="center">
             <th>Name</th>
             <th>File size</th>
-            <th>Timestamp</th>
+            <th>Uploaded</th>
+            <th>Uploader</th>
             <th>Thumbnail</th>
             {%for row in search_results %}
             <tr>
@@ -201,6 +202,9 @@
                 </td>
                 <td>
                     {{ row[2] }}
+                </td>
+                <td>
+                    {{ row[3] }}
                 </td>
                 <td>
                     <img src="/preview?file={{ row[0] }}">

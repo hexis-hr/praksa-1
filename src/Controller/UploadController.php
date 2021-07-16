@@ -50,6 +50,7 @@ class UploadController extends AbstractController
         }
 
         $filename = $file->getClientOriginalName();
+        $u_uid = $this->getUser()->getUserID();
         $final = str_replace(".pdf", "", $filename);
         $final = str_replace(" ", "", $final);
         $uploader->upload($uploadDir, $file, $final.'.pdf');
@@ -87,7 +88,7 @@ class UploadController extends AbstractController
         curl_close($ch);
         $params = [
             'index' => 'elasticsearch',
-            'id'    =>  $final,
+            'id'    =>  $final. '__'. $u_uid,
             'body'  => ['Content' => $content]
         ];
 

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Elasticsearch\ClientBuilder;
 //use Imagick;
 use PhpParser\Node\Scalar\MagicConst\Dir;
@@ -71,17 +72,21 @@ class MainController extends AbstractController
         foreach($response['hits']['hits'] as $host) {
 
             $result = array();
-            array_push($result, $host['_id']);
+            array_push($result, substr($host['_id'], 0, strrpos($host['_id'], '__')));
 
-            //array_push($arr[], $host['_id']);
-
-            $file = "../var/uploads/". $host['_id']. ".pdf";
+            $file = "../var/uploads/". substr($host['_id'], 0, strrpos($host['_id'], '__')). ".pdf";
             $file_res = new BinaryFileResponse($file);
             $file_size =  $file_res->getFile()->getSize();
             $file_time =  $file_res->getLastModified();
+            $u_uid = substr($host['_id'], strrpos($host['_id'], '__')+2);
+
+            $u_user = $this->getDoctrine()->getRepository(User::class)->find($u_uid);
 
             array_push($result, $file_size);
             array_push($result, date_format($file_time, "r"));
+            array_push($result,
+                $u_user->getFirstName(). " ". $u_user->getLastName().
+            " (". $u_user->getUsername() .")");
             array_push($arr, $result);
 
             $num++;
@@ -130,6 +135,6 @@ class MainController extends AbstractController
     // TODO: Implement function to manage documents
     public function manage_docs() : Response
     {
-        return $this->render('manage_docs.html.twig');
+        return new Response;
     }
 }
