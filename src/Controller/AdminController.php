@@ -34,7 +34,6 @@ class AdminController extends AbstractController
             ['users' => $users, 'cur_user_id' => $cur_user_id]);
     }
 
-    // TODO: Implement function to modify user details
     /**
      * @Route("/admin/manage_users/modify/{uid}", name="modify_user",
      *     requirements={"uid"="\d+"}, methods={"POST"})
